@@ -13,8 +13,56 @@
 <body>
     <div id="main-container">
         <div id="content">
-            <h1>Lovely Kitten Pictures</h1>
+            <h1>🐈 Lovely Kitten Pictures 🐈</h1>
+            <div id="picture-container">
+                <img />
+                <div class="heart"></div>
+                <div class="heart heart-reverse"></div>
+                <div class="heart"></div>
+                <div class="heart heart-reverse"></div>
+            </div>
+            <span></span>
+            <button onclick="changeKitten()">Switch</button>
         </div>
     </div>
+    <script>
+        let kitten = 0;
+
+        changeKitten();
+
+        function changeKitten() {
+            kitten = getRandomInt(1,11, kitten);
+
+            fetch(`cat_info.php?id=${kitten}`)
+                .then(async (response) => {
+                    let result = await response.json();
+                    result = JSON.parse(result);
+
+                    const picture = document.getElementsByTagName("img")[0];
+                    picture.src = `pictures.php?path=${result.Picture}`;
+                    
+                    picture.onload = (event) => {
+                        event.target.style.boxShadow = "0px 0px 5px 5px rgba(0,0,0,0.2)";
+                    };
+
+                    const span = document.getElementsByTagName("span")[0];
+                    span.innerText = result.Name;
+                });
+        }
+
+        function getRandomInt(min, max, except) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+
+            let result = Math.floor(Math.random() * (max - min)) + min;
+
+            while (result === except) {
+                result = Math.floor(Math.random() * (max - min)) + min;
+            }
+
+            return result;
+        }
+
+    </script>
 </body>
 </html>
