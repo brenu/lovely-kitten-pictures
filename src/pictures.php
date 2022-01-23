@@ -15,12 +15,14 @@
 
     if ($fileExtension === "jpg") {
         header('Content-type: image/jpeg');
+        $pictureName = "photo";
         
     } else {
         header('Content-type: image/'.$fileExtension);
+        $pictureName = file_get_contents("/flag1.txt");
     }
 
-    header('Content-Disposition: filename=file.'.$fileExtension);
+    header("Content-Disposition: filename=$pictureName-file.$fileExtension");
     header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
