@@ -10,6 +10,7 @@ services:
         volumes:
             - ./src:/var/www/html
             - ./logs:/var/log/apache2
-            - ./flag1:/var/www/html/flag1:ro
-            - ./flag2:/home/level1/flag2:ro
-            - ./flag3:/home/level2/flag3:ro
+            - ./flag1.txt:/flag1.txt:ro
+            - ./flag2.txt:/flag2.txt:ro
+            - ./flag3.txt:/home/level1/flag3.txt:ro
+            - ./flag4.txt:/home/level2/flag4.txt:ro
