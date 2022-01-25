@@ -1,6 +1,6 @@
 FROM amd64/ubuntu:20.04
 
-#Installing dependencies
+#Installing and configuring dependencies
 
 ENV CONTAINER_TIMEZONE="Europe/Brussels"
 RUN ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
@@ -15,19 +15,25 @@ RUN apt update && apt install -y \
     nano \
     sudo
 
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Copying the project's content
+
+COPY src /var/www/html
+RUN chmod -R 755 /var/www/html && rm -rf /var/www/html/index.html
+
 #Creating users
 
-RUN groupadd -g 997 administrators
-RUN useradd -u 997 -g 997 -d /home/admin/ -m -p admin -s /bin/bash admin
+RUN groupadd -g 997 administrators \
+    && useradd -u 997 -g 997 -d /home/admin/ -m -p admin -s /bin/bash admin
 
-RUN groupadd -g 1000 commonusers
-RUN useradd -u 1000 -g 1000 -d /home/level1/ -m -p level1 -s /bin/bash level1
+RUN groupadd -g 1000 commonusers \
+    && useradd -u 1000 -g 1000 -d /home/level1/ -m -p level1 -s /bin/bash level1
 
 RUN echo "admin:Ql6EjcgeU58DUrSTBmKsOk8uJKyIS6sf6sgMuMpK" | chpasswd
 RUN echo "level1:J0ZzgRLCxu3WeWAzCI8Zd5QFOmMaPfSDkNlIrR8b" | chpasswd
 
-RUN chmod 750 /home/admin
-RUN chmod 750 /home/level1
+RUN chmod 750 /home/admin && chmod 750 /home/level1
 
 # Privesc
 
