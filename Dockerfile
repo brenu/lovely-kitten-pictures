@@ -15,7 +15,12 @@ RUN apt update && apt install -y \
     nano \
     sudo
 
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN sed -i "s|KeepAlive On|KeepAlive Off |g" /etc/apache2/apache2.conf
+RUN sed -i "s|Options Indexes FollowSymLinks|Options -Indexes |g" /etc/apache2/apache2.conf
+RUN printf "ServerName localhost" >> /etc/apache2/apache2.conf
+
+RUN sed -i "s|ServerTokens OS|ServerTokens Prod |g" /etc/apache2/conf-available/security.conf
+RUN sed -i "s|ServerSignature On|ServerSignature Off |g" /etc/apache2/conf-available/security.conf
 
 # Copying the project's content
 
