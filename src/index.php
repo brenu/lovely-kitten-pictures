@@ -12,8 +12,8 @@
 </head>
 <body>
     <div id="main-container">
+        <h1>Lovely Kitten<img src="assets/cat-icon.svg" alt=""/> Pictures <img src="assets/cat-icon.svg" alt=""/></h1>
         <div id="content">
-            <h1>🐈 Lovely Kitten Pictures 🐈</h1>
             <div id="picture-container">
                 <img />
                 <div class="heart"></div>
@@ -37,8 +37,10 @@
                 .then(async (response) => {
                     let result = await response.json();
                     result = JSON.parse(result);
+                    
+                    const pictureContainer = document.getElementById("picture-container");
 
-                    const picture = document.getElementsByTagName("img")[0];
+                    const picture = pictureContainer.getElementsByTagName("img")[0];
                     picture.src = `pictures.php?path=${result.Picture}`;
                     
                     picture.onload = (event) => {
